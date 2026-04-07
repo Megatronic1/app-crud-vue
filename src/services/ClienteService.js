@@ -1,22 +1,28 @@
 import api from '../lib/axios'
 
-export default{
-    obtenerClientes(){
+export default {
+    // Obtener todos (la respuesta ahora trae { clientes: [...] })
+    obtenerClientes() {
         return api.get('/clientes')
     },
-    agregarCliente(data){
-        return api.post('/clientes',data)
+    // Agregar nuevo
+    agregarCliente(data) {
+        return api.post('/clientes', data)
     },
-    obtenerCliente(id){
-        return api.get(`/clientes/${id}`)
+    // Obtener uno solo por ID
+    obtenerCliente(id) {
+        return api.get(`/clientes?id=${id}`)
     },
-    actualizarCliente(id,data){
-        return api.patch(`/clientes/${id}`,data)
+    // Actualizar (usamos PUT porque así lo configuramos en el switch)
+    actualizarCliente(id, data) {
+        return api.put(`/clientes?id=${id}`, data)
     },
-    cambiarEstado(id,data){
-        return api.patch(`/clientes/${id}`,data)
+    // Cambiar estado (reutiliza la lógica de actualizar)
+    cambiarEstado(id, data) {
+        return api.put(`/clientes?id=${id}`, data)
     },
-    eliminarCliente(id){
-        return api.delete(`/clientes/${id}`)
+    // Eliminar
+    eliminarCliente(id) {
+        return api.delete(`/clientes?id=${id}`)
     }
 }

@@ -1,10 +1,10 @@
 import axios from 'axios'
 
-// Preguntamos: ¿Estamos en Vercel? 
-// (Vite pone 'production' automáticamente cuando subes el sitio)
-const urlBase = process.env.NODE_ENV === 'production' 
-    ? '/api' 
-    : 'http://localhost:4000'
+// Si estamos en desarrollo (npm run dev), usamos la URL de localhost que levanta Vercel
+// Si estamos en producción, simplemente usamos la ruta relativa
+const urlBase = import.meta.env.DEV 
+    ? 'http://localhost:3000/api' 
+    : '/api'
 
 const api = axios.create({
     baseURL: urlBase

@@ -9,7 +9,7 @@ const clientes = ref([]);
 
 onMounted(() => {
   ClienteService.obtenerClientes()
-    .then(({data}) => clientes.value = data)
+    .then(({data}) => clientes.value = data.clientes)
     .catch(() => console.log('Hubo un error al conectar con la API'))
 });
 

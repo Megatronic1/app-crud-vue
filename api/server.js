@@ -1,12 +1,15 @@
-const jsonServer = require('json-server')
-const server = jsonServer.create()
-const router = jsonServer.router('db.json') // Asegúrate que tu archivo se llame así
-const middlewares = jsonServer.defaults()
+import jsonServer from 'json-server';
+import path from 'path';
 
-server.use(middlewares)
+const server = jsonServer.create();
+const middlewares = jsonServer.defaults();
+// Usamos una ruta relativa simple que Vercel entiende al empaquetar la función
+const router = jsonServer.router(path.join(process.cwd(), 'api', 'db.json'));
+
+server.use(middlewares);
 server.use(jsonServer.rewriter({
-    '/api/*': '/$1'
-}))
-server.use(router)
+  '/api/*': '/$1'
+}));
+server.use(router);
 
-module.exports = server
+export default server;
