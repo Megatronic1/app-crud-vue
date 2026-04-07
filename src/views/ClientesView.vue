@@ -7,10 +7,22 @@ import Cliente from '@/components/UI/Cliente.vue'; // Solo dejamos uno
 
 const clientes = ref([]); 
 
-onMounted(() => {
+/*onMounted(() => {
   ClienteService.obtenerClientes()
     .then(({data}) => clientes.value = data.clientes)
     .catch(() => console.log('Hubo un error al conectar con la API'))
+});*/
+
+onMounted(() => {
+  ClienteService.obtenerClientes()
+    .then(({ data }) => {
+      // Upstash devuelve el array directamente, no un objeto { clientes: [...] }
+      clientes.value = data || []; 
+    })
+    .catch(() => {
+      console.log('Hubo un error al conectar con la API');
+      clientes.value = [];
+    });
 });
 
 defineProps({
@@ -19,8 +31,12 @@ defineProps({
   }
 });
 
-const existenClientes = computed(() => {
+/*const existenClientes = computed(() => {
   return clientes.value.length > 0
+});*/
+
+const existenClientes = computed(() => {
+  return Array.isArray(clientes.value) && clientes.value.length > 0;
 });
 
 const actualizarEstado=({id, estado})=>{

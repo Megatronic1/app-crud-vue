@@ -17,4 +17,14 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     },
   },
+  // --- NUEVA CONFIGURACIÓN DE PROXY ---
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3000', // El puerto donde corre "vercel dev"
+        changeOrigin: true,
+        secure: false
+      }
+    }
+  }
 })
