@@ -13,16 +13,15 @@ const clientes = ref([]);
     .catch(() => console.log('Hubo un error al conectar con la API'))
 });*/
 
-onMounted(() => {
-  ClienteService.obtenerClientes()
-    .then(({ data }) => {
-      // Upstash devuelve el array directamente, no un objeto { clientes: [...] }
-      clientes.value = data || []; 
-    })
-    .catch(() => {
-      console.log('Hubo un error al conectar con la API');
-      clientes.value = [];
-    });
+onMounted(async () => {
+  try {
+    const response = await ClienteService.obtenerClientes();
+    // Forzamos que siempre sea un array para que el v-for no explote
+    clientes.value = Array.isArray(response.data) ? response.data : [];
+  } catch (error) {
+    console.error('Error al conectar con la API:', error);
+    clientes.value = [];
+  }
 });
 
 defineProps({
